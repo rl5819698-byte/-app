@@ -1,0 +1,1 @@
+-keep class com.rl5819698.airpodspro3.** { *; }

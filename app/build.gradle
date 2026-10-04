@@ -1,0 +1,25 @@
+plugins { id "com.android.application" }
+
+android {
+    namespace "com.rl5819698.airpodspro3"
+    compileSdk 35
+    defaultConfig {
+        applicationId "com.rl5819698.airpodspro3"
+        minSdk 19
+        targetSdk 28
+        versionCode 1
+        versionName "1.0.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+        }
+        debug { minifyEnabled false }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_8
+        targetCompatibility JavaVersion.VERSION_8
+    }
+}
