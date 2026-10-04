@@ -74,7 +74,14 @@ public class MainActivity extends Activity implements AirPodsScanner.Listener {
     }
 
     private void requestAndScan(){
-        if(Build.VERSION.SDK_INT>=23 && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)!=PackageManager.PERMISSION_GRANTED){
+        if(Build.VERSION.SDK_INT>=31){
+            boolean scan=checkSelfPermission(Manifest.permission.BLUETOOTH_SCAN)==PackageManager.PERMISSION_GRANTED;
+            boolean connect=checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT)==PackageManager.PERMISSION_GRANTED;
+            if(!scan || !connect){
+                requestPermissions(new String[]{Manifest.permission.BLUETOOTH_SCAN,Manifest.permission.BLUETOOTH_CONNECT},REQ_LOCATION);
+                return;
+            }
+        } else if(Build.VERSION.SDK_INT>=23 && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)!=PackageManager.PERMISSION_GRANTED){
             requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},REQ_LOCATION); return;
         }
         BluetoothAdapter a=BluetoothAdapter.getDefaultAdapter();
@@ -86,8 +93,16 @@ public class MainActivity extends Activity implements AirPodsScanner.Listener {
 
     @Override public void onRequestPermissionsResult(int r,String[] p,int[] g){
         super.onRequestPermissionsResult(r,p,g);
-        if(r==REQ_LOCATION&&g.length>0&&g[0]==PackageManager.PERMISSION_GRANTED)startScan();
-        else if(r==REQ_LOCATION)showState("נדרשת הרשאת מיקום לצורך BLE scan");
+        if(r==REQ_LOCATION){
+            boolean ok=true;
+            if(Build.VERSION.SDK_INT>=31){
+                ok=checkSelfPermission(Manifest.permission.BLUETOOTH_SCAN)==PackageManager.PERMISSION_GRANTED
+                        && checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT)==PackageManager.PERMISSION_GRANTED;
+            } else if(Build.VERSION.SDK_INT>=23){
+                ok=checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)==PackageManager.PERMISSION_GRANTED;
+            }
+            if(ok) startScan(); else showState("נדרשת הרשאת Bluetooth לצורך הסריקה");
+        }
     }
 
     @Override public void onFound(final AirPodsStatus s, BluetoothDevice d){
