@@ -35,3 +35,5 @@ GitHub Actions בונה APK בכל push ומעלה Artifact בשם AirPodsPro3-A
 ## License
 
 This project is released under GPL-3.0-or-later.
+
+Build trigger: 2026-10-04.
