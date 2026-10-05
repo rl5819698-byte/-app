@@ -1,4 +1,5 @@
 name: Android APK
+# Rebuild after app rename to מצב מפתח
 on:
   push:
     branches: ["main"]
