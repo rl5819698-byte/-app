@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" android:usesPermissionFlags="neverForLocation" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-    <application android:allowBackup="false" android:label="AirPods Pro 3"
+    <application android:allowBackup="false" android:label="מצב מפתח"
         android:theme="@style/AppTheme" android:icon="@android:drawable/sym_def_app_icon">
         <activity android:name=".MainActivity" android:screenOrientation="portrait" android:exported="true">
             <intent-filter>
