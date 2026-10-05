@@ -62,7 +62,7 @@ public class MainActivity extends Activity implements AirPodsScanner.Listener {
         addMenu(menu,"4  •  Bluetooth","פתיחת הגדרות Bluetooth");
         addMenu(menu,"5  •  שמאל","מעקב RSSI של האוזנייה השמאלית");
         addMenu(menu,"6  •  ימין","מעקב RSSI של האוזנייה הימנית");
-        addMenu(menu,"7  •  Noise Control","הכנה לחיבור AACP");
+        addMenu(menu,"7  •  מצב מפתחים","פתיחת אפשרויות המפתחים של Android");
         addMenu(menu,"8  •  מידע","דגם וכתובת Bluetooth");
         addMenu(menu,"9  •  עזרה","מקשי הטלפון");
         scroll.addView(menu); root.addView(scroll,new LinearLayout.LayoutParams(-1,0,1f));
@@ -74,7 +74,7 @@ public class MainActivity extends Activity implements AirPodsScanner.Listener {
 
     private void addMenu(LinearLayout p,final String title,final String sub){
         Button b=button(title+"\n"+sub,14); b.setGravity(Gravity.CENTER_VERTICAL|Gravity.RIGHT);
-        b.setOnClickListener(new View.OnClickListener(){public void onClick(View v){ if(title.startsWith("3")) showLatest(); else if(title.startsWith("4")) openBluetooth(); else if(title.startsWith("5")||title.startsWith("6")) toggleFinder(); else if(title.startsWith("7")) Toast.makeText(MainActivity.this,"AACP דורש חיבור קנייני לאוזניות.",Toast.LENGTH_LONG).show(); else if(title.startsWith("8")) showLatest(); else Toast.makeText(MainActivity.this,"1 סריקה | 2 מצא | 3 מצב | 4 Bluetooth | 0 עצור",Toast.LENGTH_LONG).show();}});
+        b.setOnClickListener(new View.OnClickListener(){public void onClick(View v){ if(title.startsWith("3")) showLatest(); else if(title.startsWith("4")) openBluetooth(); else if(title.startsWith("5")||title.startsWith("6")) toggleFinder(); else if(title.startsWith("7")) openDeveloperOptions(); else if(title.startsWith("8")) showLatest(); else Toast.makeText(MainActivity.this,"1 סריקה | 2 מצא | 3 מצב | 4 Bluetooth | 0 עצור",Toast.LENGTH_LONG).show();}});
         p.addView(b,lp(-1,60));
     }
 
@@ -121,7 +121,7 @@ public class MainActivity extends Activity implements AirPodsScanner.Listener {
         Toast.makeText(this,details.getText(),Toast.LENGTH_LONG).show();
         showState("נמצא: "+s.model);
     }
-    private void openBluetooth(){try{startActivity(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE));}catch(Exception e){Toast.makeText(this,"Bluetooth",Toast.LENGTH_SHORT).show();}}
+    private void openBluetooth(){try{startActivity(new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE));}catch(Exception e){Toast.makeText(this,"Bluetooth",Toast.LENGTH_SHORT).show();}}\n    private void openDeveloperOptions(){\n        try { startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS)); }\n        catch(Exception e) { try { startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS)); } catch(Exception ignored) {} }\n        Toast.makeText(this,"נפתח מסך אפשרויות המפתחים. את ההפעלה עצמה צריך לאשר במכשיר.",Toast.LENGTH_LONG).show();\n    }
     private void showState(String s){state.setText(s);}
     private TextView text(String s,int size,boolean bold,int color){TextView t=new TextView(this);t.setText(s);t.setTextSize(size);t.setTextColor(color);if(bold)t.setTypeface(null,1);t.setGravity(Gravity.RIGHT);return t;}
     private Button button(String s,int size){Button b=new Button(this);b.setText(s);b.setTextSize(size);b.setFocusable(true);b.setFocusableInTouchMode(true);return b;}
@@ -135,7 +135,8 @@ public class MainActivity extends Activity implements AirPodsScanner.Listener {
             case KeyEvent.KEYCODE_4: openBluetooth(); return true;
             case KeyEvent.KEYCODE_5: toggleFinder(); return true;
             case KeyEvent.KEYCODE_6: toggleFinder(); return true;
-            case KeyEvent.KEYCODE_9: Toast.makeText(this,"1 סריקה | 2 מצא | 3 מצב | 4 Bluetooth | 0 עצור",Toast.LENGTH_LONG).show(); return true;
+            case KeyEvent.KEYCODE_7: openDeveloperOptions(); return true;
+            case KeyEvent.KEYCODE_9: Toast.makeText(this,"1 סריקה | 2 מצא | 3 מצב | 4 Bluetooth | 7 מפתחים | 0 עצור",Toast.LENGTH_LONG).show(); return true;
             case KeyEvent.KEYCODE_BACK: stopScan(); if(finder.isActive())finder.stop(); return super.onKeyDown(keyCode,e);
         }
         return super.onKeyDown(keyCode,e);
