@@ -73,8 +73,7 @@ public class MainActivity extends Activity implements AirPodsScanner.Listener {
     }
 
     private void addMenu(LinearLayout p,final String title,final String sub){
-        Button b=button(title+"
-"+sub,14); b.setGravity(Gravity.CENTER_VERTICAL|Gravity.RIGHT);
+        Button b=button(title+"\n"+sub,14); b.setGravity(Gravity.CENTER_VERTICAL|Gravity.RIGHT);
         b.setOnClickListener(new View.OnClickListener(){public void onClick(View v){ if(title.startsWith("3")) showLatest(); else if(title.startsWith("4")) openBluetooth(); else if(title.startsWith("5")||title.startsWith("6")) toggleFinder(); else if(title.startsWith("7")) openDeveloperOptions(); else if(title.startsWith("8")) showLatest(); else Toast.makeText(MainActivity.this,"1 סריקה | 2 מצא | 3 מצב | 4 Bluetooth | 0 עצור",Toast.LENGTH_LONG).show();}});
         p.addView(b,lp(-1,60));
     }
@@ -118,10 +117,7 @@ public class MainActivity extends Activity implements AirPodsScanner.Listener {
     private void showStatus(AirPodsStatus s){
         String l=s.left>=0?s.left+"%":"—",r=s.right>=0?s.right+"%":"—",c=s.caseBattery>=0?s.caseBattery+"%":"—";
         battery.setText("L "+l+(s.leftCharging?" ⚡":"")+"     R "+r+(s.rightCharging?" ⚡":"")+"     CASE "+c);
-        details=text(String.format(Locale.US,"דגם: %s
-MAC: %s
-RSSI: %d dBm
-באוזן: %s",s.model,s.mac,s.rssi,(s.leftInEar||s.rightInEar)?"כן":"לא"),14,false,0xFFFFFFFF);
+        details=text(String.format(Locale.US,"דגם: %s\nMAC: %s\nRSSI: %d dBm\nבאוזן: %s",s.model,s.mac,s.rssi,(s.leftInEar||s.rightInEar)?"כן":"לא"),14,false,0xFFFFFFFF);
         Toast.makeText(this,details.getText(),Toast.LENGTH_LONG).show();
         showState("נמצא: "+s.model);
     }
